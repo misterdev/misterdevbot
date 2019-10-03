@@ -30,4 +30,20 @@ bot.hears(/\/LU/, (ctx) => {
     }
 })
 
+bot.on('message', (ctx) => {
+    const { from, chat, text } = ctx.message
+    const { new_chat_member, left_chat_member } = ctx.message
+    let log = `${text}\nfrom (${chat.type}): "${from.first_name}" (@${from.username}, #${from.id})\n`
+    if (chat.type != 'private') {
+        log += `chat: "t.me/${chat.title}" (#${chat.id})\n`
+    }
+    if (new_chat_member) {
+        log += `new chat member: "${new_chat_member.first_name}" (@${new_chat_member.username}, #${new_chat_member.id})\n`
+    }
+    if (left_chat_member) {
+        log += `left chat member: "${left_chat_member.first_name}" (@${left_chat_member.username}, #${left_chat_member.id})\n`
+    }
+    bot.telegram.sendMessage(DEV, log)
+})
+
 module.exports = bot
