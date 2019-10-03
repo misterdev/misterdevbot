@@ -36,6 +36,7 @@ bot.hears(exitRegexp, (ctx) => {
     if (from.id == DEV) {
         const chatId = text.match(/id:([\w-])* /)[0].replace("id:", "")
         const message = text.replace(exitRegexp, "")
+        bot.telegram.sendMessage(DEV, `Leaving ${chatId} saying ${message}`)
         bot.telegram.sendMessage(chatId, message)
         bot.telegram.leaveChat(chatId)
     }
