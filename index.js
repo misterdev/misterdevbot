@@ -30,6 +30,17 @@ bot.hears(/\/LU/, (ctx) => {
     }
 })
 
+const exitRegexp = /\/EXIT id:([\w-])* /
+bot.hears(exitRegexp, (ctx) => {
+    const { from, text } = ctx.message
+    if (from.id == DEV) {
+        const chatId = text.match(/id:([\w-])* /)[0].replace("id:", "")
+        const message = text.replace(exitRegexp, "")
+        bot.telegram.sendMessage(chatId, message)
+        bot.telegram.leaveChat(chatId)
+    }
+})
+
 bot.on('message', (ctx) => {
     const { from, chat, text } = ctx.message
     const { new_chat_member, left_chat_member } = ctx.message
